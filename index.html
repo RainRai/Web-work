@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <meta  name ="viewport" content ="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+
+
+    <title>海丝之路</title>
+
+    <script type="text/javascript">
+     
+     document.addEventListener('plusready', function(){
+      //console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。"
+      
+     });
+     
+    </script>
+</head>
+<body>
+ <script src="js/pixi.min.js"></script>
+    <script>
+     //添加界面
+        var app = new PIXI.Application(1080/3,2240/3);
+        document.body.appendChild(app.view);
+        
+        //开始界面
+        
+        
+        var kaishi = new PIXI.Sprite.fromImage("img/kaishi.png");
+        app.stage.addChild(kaishi);
+        kaishi.width = 1080/3;
+        kaishi.height = 2240/3;
+        kaishi.visible = true;
+        
+        var huadong = new PIXI.Sprite.fromImage("img/huadong.png");
+        app.stage.addChild(huadong);
+        //bg.width=1080/3;
+        huadong.height=2240/3;
+        huadong.visible = false;
+        
+        var bg1  = new PIXI.Sprite.fromImage("img/background1.png");
+        app.stage.addChild(bg1);
+        bg1.width=1080/3;
+        bg1.height=2240/3;
+        bg1.visible = false;
+        
+        var bg2  = new PIXI.Sprite.fromImage("img/background2.png");
+        app.stage.addChild(bg2);
+        bg2.width=1080/3;
+        bg2.height=2240/3;
+        bg2.visible = false;
+        
+        var bg3  = new PIXI.Sprite.fromImage("img/background3.png");
+        app.stage.addChild(bg3);
+        bg3.width=1080/3;
+        bg3.height=2240/3;
+        bg3.visible = false;
+        
+        var left = new PIXI.Sprite.fromImage("img/left.png");
+        app.stage.addChild(left);
+        left.y=1000/3;
+        left.x=10/3;
+        left.scale.x=0.4;
+        left.scale.y=0.4;
+        left.alpha=1;
+        left.visible = false;
+        
+        var right = new PIXI.Sprite.fromImage("img/right.png");
+        app.stage.addChild(right);
+        right.y=1000/3;
+        right.x=840/3;
+        right.scale.x=0.4;
+        right.scale.y=0.4;
+        right.alpha=1;
+        right.visible = false;
+        
+        var b = 0;
+        kaishi.interactive = true;
+        kaishi.on("touchstart",huan);
+        function huan(){
+        	kaishi.visible = false;
+        	b=1; 
+        	if(b == 1){
+        		huadong.visible = true;
+        		left.visible = true;
+        		right.visible = true;
+			}
+        }
+      
+
+		var chose1= new PIXI.Sprite.fromImage("img/chose.png");
+        app.stage.addChild(chose1);
+        chose1.y=1700/3;
+        chose1.x=440/3;
+        chose1.scale.x=0.4;
+        chose1.scale.y=0.4;
+        chose1.alpha=1;
+        chose1.visible = false;
+        
+        var chose2= new PIXI.Sprite.fromImage("img/chose.png");
+        app.stage.addChild(chose2);
+        chose2.y=1700/3;
+        chose2.x=440/3;
+        chose2.scale.x=0.4;
+        chose2.scale.y=0.4;
+        chose2.alpha=1;
+        chose2.visible = false;
+        
+        var chose3= new PIXI.Sprite.fromImage("img/chose.png");
+        app.stage.addChild(chose3);
+        chose3.y=1700/3;
+        chose3.x=440/3;
+        chose3.scale.x=0.4;
+        chose3.scale.y=0.4;
+        chose3.alpha=1;
+        chose3.visible = false;
+
+		right.interactive = true;
+		right.on("touchstart", move1);
+		var num1=0;
+		var num2=0;
+		function move1(){
+			num1 ++;
+			/*huadong.x-=100;
+			if(huadong.x<-900){
+				huadong.x=-900;
+			}*/
+			app.ticker.add(animate);
+			function animate(){
+			//huadong.x-=100;
+			huadong.x-=10;
+			
+			if(huadong.x<-320&&num1==1){
+				huadong.x=-320;
+				num2=1;
+				chose1.visible=true;
+				//num=1;
+			}
+			if(huadong.x<-820&&num1==2){
+				huadong.x=-820;
+				num2=2;
+				chose1.visible=false;
+				chose2.visible=true;
+				
+				//num=2;
+			}
+			if(huadong.x<-1700&&num1>=3){
+				huadong.x=-1700;
+				num2=3;
+				chose1.visible=false;
+				chose2.visible=false;
+				chose3.visible=true;
+				//num=3;
+			}
+			
+		}
+			
+			
+		left.interactive = true;
+		left.on("touchstart", move2);
+		function move2(){
+			num2 --;
+			/*huadong.x-=100;
+			if(huadong.x<-900){
+				huadong.x=-900;
+			}*/
+			app.ticker.add(animate);
+			function animate(){
+			//huadong.x-=100;
+			huadong.x+=10;
+			if(huadong.x<-820&&huadong.x>-820&&num1>=3&&num2==2)
+			{
+				huadong.x=-820;
+				num1=2;
+				chose1.visible=false;
+				chose2.visible=true;
+				chose3.visible=false;
+			}
+			if(huadong.x>-320&&num1==2&&num2==1)
+			{
+				huadong.x=-320;
+				num1=1;
+				chose1.visible=true;
+				chose2.visible=false;
+				chose3.visible=false;
+				
+			}
+			if(huadong.x>0&&num1==1&&num2<=0)
+			{
+				hudong.x=0;
+				num1=0;
+				chose1.visible=false;
+				chose2.visible=false;
+				chose3.visible=false;
+			}
+		}
+			}
+			var x=0;
+			chose1.interactive=true;
+			chose1.on("touchstart",happen1);
+			function happen1(){
+				
+				x=1;
+				if(x==1)
+				{
+					left.visible=false;
+				right.visible=false;
+				chose1.visible=false;
+				chose2.visible=false;
+				chose3.visible=false;
+				huadong.visible=false;
+				}
+				bg1.visible = true;
+			}
+			
+			var y=0;
+			chose2.interactive=true;
+			chose2.on("touchstart",happen2);
+			function happen2(){
+				y=1;
+				if(y==1)
+				{
+				left.visible=false;
+				right.visible=false;
+				chose1.visible=false;
+				chose2.visible=false;
+				chose3.visible=false;
+				huadong.visible=false;
+				}
+				bg2.visible = true;
+			}
+			var z=0;
+			chose3.interactive=true;
+			chose3.on("touchstart",happen3);
+			function happen3(){
+				z=1;
+				if(z==1)
+				{
+				left.visible=false;
+				right.visible=false;
+				chose1.visible=false;
+				chose2.visible=false;
+				chose3.visible=false;
+				huadong.visible=false;
+				}
+				bg3.visible = true;
+			}
+			/*if(huadong.x>0&&((num1==1)||(num1==2&&num2>=2)||(num1>=3&&num2>=3)))
+			{
+				huadong.x=0;
+				num1=0;
+			}
+			if(huadong.x>-320&&((num1==2&&num2==1)||(num1>=3&&num2==2)))
+			{
+				huadong.x=-320;
+				num1=1;
+				//num=1;
+			}
+			if(huadong.x>-820&&num1==3&&num2==1){
+				huadong.x=-820;
+				num1=2
+				//num=2;
+			}
+			if(huadong.x<-1700&&num1==3){
+				huadong.x=-1700;
+				num1=3;
+				//num=3;
+			}*/
+			
+			
+			
+		}
+	
+        
+    </script> 
+</body>
+</html>
